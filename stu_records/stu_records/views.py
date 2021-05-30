@@ -24,7 +24,7 @@ def loginuser(request):
 def front(request):
     if request.user.is_authenticated:
         return render(request,'front.html')
-    else:return rredirect('/login')
+    else:return redirect('/login')
         
     
 
@@ -41,10 +41,7 @@ def addnew(request):
         obj.stname=request.POST.get('stname')
         obj.stemail=request.POST.get('stemail')
         obj.stphone=request.POST.get('stphone')
-
         obj.save()
-        # messages.success(request,"THR RECORD"+savest.stname+"ADDED SUCCESSFULLY...!")
-
         messages.info(request,"data "+obj.stname+"added succesfully")
 
     return render(request,'add.html')
@@ -57,21 +54,13 @@ def delete(request,id):
     return render(request,'home.html',{'records':newdata})
 
 def update(request,id):
-    print("inside update")
     update=students.objects.get(id=id)
     form=strecord(request.POST,instance=update)
-    print(form)
     data={
         'records':update,
         'bool':False
     }
     if form.is_valid():
         form.save()
-    
         messages.SUCCESS(request,"data  updated succesfully")
-
-        print("krid bhai update")
-        print(update.stname)
-        print("krid bhai update")
-
     return render(request,"update.html",data)
